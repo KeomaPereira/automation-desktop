@@ -4,11 +4,10 @@ import os
 from pynput import keyboard as keyboardL
 from datetime import datetime
 from imagesearch import *
-from Functions.core import walk
+from Functions.core import walk, getImageFolder
 
 
 class Heal:
-    imageFolder = os.getcwd() + r"\\imagens\\"
     pokeCenter = ''
 
 
@@ -16,8 +15,12 @@ def setPlaceForHeal(poke):
     Heal.pokeCenter = poke
 
 
+def getPlaceForHeal():
+    return Heal.pokeCenter
+
+
 def healPokeCenter():
-    if Heal.pokeCenter == 'cinnabar_pokecenter':
+    if getPlaceForHeal() == 'cinnabar_pokecenter':
         sleep(4)
         walk('a', 8)
         walk('d', 1)
@@ -68,7 +71,7 @@ def healPokeCenter():
         walk('d', 1)
         sleep(1)
         walk('w', 1)
-    if Heal.pokeCenter == 'lavander_tower':
+    if getPlaceForHeal() == 'lavander_tower':
         print('Healing')
         sleep(2)
         walk('w', 10)
@@ -79,7 +82,7 @@ def healPokeCenter():
 
 def nurseTalk():
     i = 0
-    while not imgClick(Heal.imageFolder + 'yesPlease.png', 1, 1):
+    while not imgClick(getImageFolder() + 'yesPlease.png', 1, 1):
         i = i + 1
         pyautogui.typewrite(' ')
         sleep(0.5)
@@ -89,22 +92,21 @@ def nurseTalk():
     for i in range(0, 3):
         pyautogui.typewrite(' ')
         sleep(2)
-        messageWindow = imagesearch(Heal.imageFolder + 'messageWindow.png', precision=0.8)
+        messageWindow = imagesearch(getImageFolder() + 'messageWindow.png', precision=0.8)
         if messageWindow is None:
             return
 
 
 def healWithPotion(text):
     sleep(1)
-    imgClick(Heal.imageFolder + 'mochila.png', 1, 1)
+    imgClick(getImageFolder() + 'mochila.png', 1, 1)
     sleep(1)
-    imgClick(Heal.imageFolder + 'superPocao.png', 1, 1)
+    imgClick(getImageFolder() + 'superPocao.png', 1, 1)
     sleep(1)
     if (text == 'GOLBAT'):
-        imgClick(Heal.imageFolder + 'golbat.png', 1, 1)
+        imgClick(getImageFolder() + 'golbat.png', 1, 1)
     if (text == 'NIDOKING'):
-        imgClick(Heal.imageFolder + 'nido.png', 1, 1)
+        imgClick(getImageFolder() + 'nido.png', 1, 1)
     sleep(2)
-
 
 

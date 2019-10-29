@@ -5,13 +5,53 @@ from pynput import keyboard as keyboardL
 from datetime import datetime
 
 
-
 class Core:
-    imageFolder = os.getcwd() + r"\\imagens\\"
     mouseX = 0
     mouseY = 0
     thingsOK = True
     exiting = False
+    imageFolder = ''
+
+
+def setImageFolder(image):
+    Core.imageFolder = image
+
+
+def getImageFolder():
+    return Core.imageFolder
+
+
+
+def setMouseX(mouse):
+    Core.mouseX = mouse
+
+
+def getmouseX():
+    return Core.mouseX
+
+
+def setMouseY(mouse):
+    Core.mouseY = mouse
+
+
+def getmouseY():
+    return Core.mouseY
+
+
+def setThingsOK(things):
+    Core.thingsOK = things
+
+
+def getThingsOK():
+    return Core.thingsOK
+
+
+def setExiting(exiting):
+    Core.exiting = exiting
+
+
+def getExiting():
+    return Core.exiting
 
 
 def walk(key, times=1):
@@ -43,9 +83,10 @@ def on_press(key):
 
 
 def getMousePosition():
-    Core.mouseX, Core.mouseY = pyautogui.position()
-    print("mouseX :"+str(Core.mouseX))
-    print("mouseY :"+str(Core.mouseY))
+    setMouseX(pyautogui.position())
+    setMouseY(pyautogui.position())
+    print("mouseX :"+str(getmouseX()))
+    print("mouseY :"+str(getmouseY()))
 
 
 def keyboardListener():
@@ -67,19 +108,18 @@ def timePrinter():
 
 def exitOnError():
     while True:
-        Core.thingsOK = False
+        setThingsOK(False)
         sleep(300)
-        if not Core.thingsOK:
+        if not getThingsOK():
             print("EXITING BY INACTIVITY")
             exit('exitOnError')
-        elif Core.exiting:
+        elif getExiting:
             exit('exitOnError')
 
 
 def exit(called):
     Core.exiting = True
     print(called+' exiting!!!!!!!!!')
-    Core.exit()
 
 
 def skill(key):

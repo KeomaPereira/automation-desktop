@@ -4,17 +4,15 @@ import os
 from pynput import keyboard as keyboardL
 from datetime import datetime
 from imagesearch import *
-from Functions.core import walk, skill
+from Functions.core import walk, skill, setThingsOK, getImageFolder
 from Functions.heal import healPokeCenter
 
 
 class Battle:
-    imageFolder = os.getcwd() + r"\\imagens\\"
     attacksCharged = 0
-    thingsOK = True
     healAtPokeCenter = False
     specificPokemon = False
-    command = 'fight_1'
+    command = ''
     pokemonToHunt = ''
     quantityAttacksToHeal = 0
 
@@ -23,26 +21,58 @@ def setIfHealAtPokecenter(heal):
     Battle.healAtPokeCenter = heal
 
 
+def getIfHealAtPokecenter():
+    return Battle.healAtPokeCenter
+
+
 def setIfFindASpecificPokemon(findSpecific):
     Battle.specificPokemon = findSpecific
+
+
+def getIfFindASpecificPokemon():
+    return Battle.specificPokemon
 
 
 def setPokemonToHunt(pokemon):
     Battle.pokemonToHunt = pokemon
 
 
+def getPokemonToHunt():
+    return Battle.pokemonToHunt
+
+
 def setQuantityAttacksToHeal(quantity):
     Battle.quantityAttacksToHeal = quantity
+
+
+def getQuantityAttacksToHeal():
+    return Battle.quantityAttacksToHeal
+
+
+def setAttacksCharged(attack):
+    Battle.attacksCharged = attack
+
+
+def getAttacksCharged():
+    return Battle.attacksCharged
+
+
+def setCommand(comm):
+    Battle.command = comm
+
+
+def getCommand():
+    return Battle.command
 
 
 def hunt():
     while(True):
         cancelLearning()
-        print(Battle.attacksCharged)
-        if (Battle.attacksCharged >= Battle.quantityAttacksToHeal):
-                    if (Battle.healAtPokeCenter):
+        print(getAttacksCharged())
+        if (getAttacksCharged() >= getQuantityAttacksToHeal()):
+                    if (getIfHealAtPokecenter):
                         healPokeCenter()
-                        Battle.attacksCharged = 0
+                        setAttacksCharged(0)
         for x in range(0, 4):
             walk("a", 3)
             walk("d", 2)
@@ -52,11 +82,11 @@ def hunt():
 
 
 def verifyBattle():
-    img = imagesearch(Battle.imageFolder+'battleFound.png', precision=0.8)
+    img = imagesearch(getImageFolder() + 'battleFound.png', precision=0.8)
     if img is not None:
         print("battleFound!")
         sleep(1)
-        img = imagesearch_numLoop(Battle.imageFolder + 'fight.png', 1, 5, precision=0.8)
+        img = imagesearch_numLoop(getImageFolder() + 'fight.png', 1, 5, precision=0.8)
         if img is not None:
             if 'fight' in Battle.command:
                 battle(Battle.command)
@@ -64,45 +94,45 @@ def verifyBattle():
 
 def battle(verifySituationCommand):
     while True:
-        if imgClick(Battle.imageFolder + 'fight.png', 1, 1):
+        if imgClick(getImageFolder() + 'fight.png', 1, 1):
             sleep(0.4)
-            if (Battle.specificPokemon == False):
+            if (getIfFindASpecificPokemon() == False):
                 if '1' in verifySituationCommand:
                     skill(random.randint(1,4))
             else:
-                if imgClick(Battle.imageFolder + Battle.pokemonToHunt +'.png', 1, 1):
+                if imgClick(getImageFolder() + getPokemonToHunt() +'.png', 1, 1):
                     skill(random.randint(1,4))
                 else:
                     run()
             sleep(3)
-        Battle.attacksCharged = Battle.attacksCharged + 1
+        setAttacksCharged(getAttacksCharged() + 1)
 
-        img = imagesearch(Battle.imageFolder+'battleFound.png', precision=0.8)
+        img = imagesearch(getImageFolder() + 'battleFound.png', precision=0.8)
         if img is None:
-            Battle.thingsOK = True
+            setThingsOK(True)
             return
 
 
 def verifyFaint():
-    if imgClick(Battle.imageFolder + 'faited.png', 1, 1):
-        imgClick(Battle.imageFolder + 'pokemonChange.png', 1, 5)
+    if imgClick(getImageFolder() + 'faited.png', 1, 1):
+        imgClick(getImageFolder() + 'pokemonChange.png', 1, 5)
         sleep(1)
         skill('2')
 
 
 def run():
-    imgClick(Battle.imageFolder + 'run.png', 1, 5)
+    imgClick(getImageFolder() + 'run.png', 1, 5)
     sleep(2)
 
 
 def cancelEvolving():
-    if imgClick(Battle.imageFolder + 'evolving.png', 1, 1):
-        imgClick(Battle.imageFolder + 'noEvolve.png', 1, 5)
+    if imgClick(getImageFolder() + 'evolving.png', 1, 1):
+        imgClick(getImageFolder() + 'noEvolve.png', 1, 5)
 
 
 def cancelLearning():
-    if imgClick(Battle.imageFolder + 'learn.png', 1, 1):
-        imgClick(Battle.imageFolder + 'doNotLearn.png', 1, 5)
-        imgClick(Battle.imageFolder + 'confirmNotLearning.png', 1, 5)
+    if imgClick(getImageFolder() + 'learn.png', 1, 1):
+        imgClick(getImageFolder() + 'doNotLearn.png', 1, 5)
+        imgClick(getImageFolder() + 'confirmNotLearning.png', 1, 5)
 
 

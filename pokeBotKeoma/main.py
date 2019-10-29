@@ -1,16 +1,20 @@
 from time import sleep
 import threading
-from Functions.core import walk, keyboardListener, timePrinter, exitOnError
-from Functions.battle import hunt, setIfHealAtPokecenter, setIfFindASpecificPokemon, setPokemonToHunt, setQuantityAttacksToHeal
+from Functions.core import walk, keyboardListener, timePrinter, exitOnError, setImageFolder
+from Functions.battle import hunt, setIfHealAtPokecenter, setIfFindASpecificPokemon, setPokemonToHunt, \
+    setQuantityAttacksToHeal, setCommand
 from Functions.heal import setPlaceForHeal
+import os
 
 
 def main():
+    setImageFolder(os.getcwd() + r"\\imagens\\")
+    setCommand('fight_1')
     setIfHealAtPokecenter(True)
     setPlaceForHeal('cinnabar_pokecenter')
-    setQuantityAttacksToHeal(20)
-    setIfFindASpecificPokemon(False)
-    setPokemonToHunt('')
+    setQuantityAttacksToHeal(200)
+    setIfFindASpecificPokemon(True)
+    setPokemonToHunt('krabby')
 
 
     t = []
